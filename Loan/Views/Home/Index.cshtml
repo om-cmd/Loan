@@ -1,0 +1,183 @@
+﻿@model Loan.Models.ViewModels.LoanRequestViewModel
+@{
+    ViewData["Title"] = "Loan Prediction";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            background-image: url('/image/Loan.jpg'); /* Set background image to the form image */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .loan-form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.7); /* Add background color with opacity */
+        }
+
+            .loan-form label {
+                font-weight: bold;
+            }
+
+            .loan-form input[type="text"],
+            .loan-form select {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+
+            .loan-form button[type="submit"] {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Loan Details</h2>
+
+        <div class="content-wrapper">
+            <div class="loan-form">
+                <form asp-action="LoanPredict" asp-controller="Loan" method="post">
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="Gender" class="control-label"></label>
+                            <select asp-for="Gender" class="form-control">
+                                <option value="" selected="selected">--SELECT--</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="Married" class="control-label"></label>
+                            <select asp-for="Married" class="form-control">
+                                <option value="" selected="selected">--SELECT--</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <span asp-validation-for="Married" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="Dependents" class="control-label"></label>
+                            <input asp-for="Dependents" class="form-control" />
+                            <span asp-validation-for="Dependents" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="Education" class="control-label"></label>
+                            <select asp-for="Education" class="form-control">
+                                <option value="" selected="selected">--SELECT--</option>
+                                <option value="Graduate">Graduate</option>
+                                <option value="Not Graduate">Not Graduate</option>
+                            </select>
+                            <span asp-validation-for="Education" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="Self_Employed" class="control-label"></label>
+                            <select asp-for="Self_Employed" class="form-control">
+                                <option value="" selected="selected">--SELECT--</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <span asp-validation-for="Self_Employed" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="ApplicantIncome" class="control-label"></label>
+                            <input asp-for="ApplicantIncome" class="form-control" />
+                            <span asp-validation-for="ApplicantIncome" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="CoapplicantIncome" class="control-label"></label>
+                            <input asp-for="CoapplicantIncome" class="form-control" />
+                            <span asp-validation-for="CoapplicantIncome" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="LoanAmount" class="control-label"></label>
+                            <input asp-for="LoanAmount" class="form-control" />
+                            <span asp-validation-for="LoanAmount" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="Loan_Amount_Term" class="control-label"></label>
+                            <input asp-for="Loan_Amount_Term" class="form-control" />
+                            <span asp-validation-for="Loan_Amount_Term" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="Credit_History" class="control-label"></label>
+                            <input asp-for="Credit_History" class="form-control" />
+                            <span asp-validation-for="Credit_History" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <label asp-for="Property_Area" class="control-label"></label>
+                            <select asp-for="Property_Area" class="form-control">
+                                <option value="" selected="selected">--SELECT--</option>
+                                <option value="Urban">Urban</option>
+                                <option value="Rural">Rural</option>
+                                <option value="Semiurban">Semiurban</option>
+                            </select>
+                            <span asp-validation-for="Property_Area" class="text-danger"></span>
+                        </div>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="row py-2">
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary">Predict Loan</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                if ('@TempData["SucessResult"]' !== '') {
+                    Swal.fire('@TempData["SucessResult"]');
+                }
+            });
+
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                if ('@TempData["RejectResult"]' !== '') {
+                    Swal.fire('@TempData["RejectResult"]');
+                }
+            });
+
+        </script>
+    }
+</body>
+</html>
+
+
